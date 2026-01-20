@@ -228,7 +228,7 @@ OpenAI
 
 Locking
 
-“Ensured balance consistency using locking to prevent concurrent double spends.”
+```“Ensured balance consistency using locking to prevent concurrent double spends.”
 
 🧠 WHY THIS IMPRESSES RECRUITERS
 
