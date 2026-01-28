@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: smart-wallet-backend
+
+  # PostgreSQL - financial data
+  datasource:
+    url: jdbc:postgresql://localhost:5432/smart_wallet_db
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  flyway:
+    enabled: false  # temporarily disabled until Flyway version is aligned with PostgreSQL 14.20
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+  # MongoDB - onboarding & KYC
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/smart_wallet_onboarding}
+      database: smart_wallet_onboarding
+      auto-index-creation: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
