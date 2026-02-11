@@ -1,11 +1,10 @@
 package com.smartwallet.Controller;
 
+import com.smartwallet.dto.LoginDto;
+import com.smartwallet.dto.RegisterDto;
 import com.smartwallet.model.User;
 import com.smartwallet.service.AuthService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -19,20 +18,19 @@ public class Auth {
     }
 
     @PostMapping("/register")
-    public User register(
-            @RequestParam String name,
-            @RequestParam String email,
-            @RequestParam String password
-    ){
-        return authService.register(name,email,password);
+    public User register(@RequestBody RegisterDto request) {
+        return authService.register(
+                request.getName(),
+                request.getEmail(),
+                request.getPassword()
+        );
     }
     @PostMapping("/login")
-    public User login(
-            @RequestParam String email,
-            @RequestParam String password
-    ){
-        return authService.login(email,password);
-
+    public User login(@RequestBody LoginDto request){
+        return authService.login(
+                request.getEmail(),
+                request.getPassword()
+        );
     }
 
 }
