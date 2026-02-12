@@ -1,2 +1,8 @@
+/home/stuti/Desktop/Smart-Wallet/backend/src/main/java/com/smartwallet/dto/RegisterDto.java
+/home/stuti/Desktop/Smart-Wallet/backend/src/main/java/com/smartwallet/Controller/panJourney.java
 /home/stuti/Desktop/Smart-Wallet/backend/src/main/java/com/smartwallet/SmartWalletApplication.java
+/home/stuti/Desktop/Smart-Wallet/backend/src/main/java/com/smartwallet/model/User.java
+/home/stuti/Desktop/Smart-Wallet/backend/src/main/java/com/smartwallet/service/AuthService.java
+/home/stuti/Desktop/Smart-Wallet/backend/src/main/java/com/smartwallet/dto/LoginDto.java
 /home/stuti/Desktop/Smart-Wallet/backend/src/main/java/com/smartwallet/config/DatabaseConnectionTestRunner.java
+/home/stuti/Desktop/Smart-Wallet/backend/src/main/java/com/smartwallet/Controller/Auth.java

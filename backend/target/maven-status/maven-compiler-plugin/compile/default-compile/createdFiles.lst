@@ -1,2 +1,8 @@
+com/smartwallet/Controller/panJourney.class
+com/smartwallet/Controller/Auth.class
+com/smartwallet/service/AuthService.class
+com/smartwallet/dto/RegisterDto.class
 com/smartwallet/SmartWalletApplication.class
 com/smartwallet/config/DatabaseConnectionTestRunner.class
+com/smartwallet/model/User.class
+com/smartwallet/dto/LoginDto.class
