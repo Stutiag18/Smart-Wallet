@@ -6,13 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Smart-Wallet" />
+        <module name="smart-wallet" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Smart-Wallet" options="-parameters" />
+      <module name="smart-wallet" options="-parameters" />
     </option>
   </component>
 </project>
