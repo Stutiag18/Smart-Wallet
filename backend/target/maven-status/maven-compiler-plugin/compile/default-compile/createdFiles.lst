@@ -1,9 +1,13 @@
+com/smartwallet/dto/PanDto.class
+com/smartwallet/repository/UserRepository.class
+com/smartwallet/Controller/PanController.class
+com/smartwallet/model/PanEntity.class
+com/smartwallet/service/PanService.class
+com/smartwallet/repository/PanRepository.class
 com/smartwallet/Controller/Auth.class
-com/smartwallet/Controller/panJourney.class
 com/smartwallet/service/AuthService.class
 com/smartwallet/SmartWalletApplication.class
 com/smartwallet/dto/RegisterDto.class
 com/smartwallet/config/DatabaseConnectionTestRunner.class
 com/smartwallet/model/User.class
-com/smartwallet/repository/UserRepository.class
 com/smartwallet/dto/LoginDto.class
