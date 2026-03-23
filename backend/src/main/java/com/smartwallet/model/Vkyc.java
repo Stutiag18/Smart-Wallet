@@ -20,6 +20,10 @@ public class Vkyc {
     private Long fileSize;
     private String mimeType;
 
+    private String otp;
+    private boolean otpVerified;
+    private LocalDateTime otpExpireAt;
+
     private VkycStatus status;
 
     private LocalDateTime createdAt;
@@ -79,6 +83,18 @@ public class Vkyc {
         return rejectionReason;
     }
 
+    public String getOtp() {
+        return otp;
+    }
+
+    public boolean isOtpVerified() {
+        return otpVerified;
+    }
+
+    public LocalDateTime getOtpExpireAt() {
+        return otpExpireAt;
+    }
+
     public void setUserId(String userId) {
         this.userId = userId;
     }
@@ -113,5 +129,17 @@ public class Vkyc {
 
     public void setRejectionReason(String rejectionReason) {
         this.rejectionReason = rejectionReason;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
+    }
+
+    public void setOtpVerified(boolean otpVerified) {
+        this.otpVerified = otpVerified;
+    }
+
+    public void setOtpExpireAt(LocalDateTime otpExpireAt) {
+        this.otpExpireAt = otpExpireAt;
     }
 }

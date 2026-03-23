@@ -3,9 +3,16 @@
 /home/testuser/IdeaProjects/Smart-Wallet/backend/src/main/java/com/smartwallet/Controller/VkycController.java
 /home/testuser/IdeaProjects/Smart-Wallet/backend/src/main/java/com/smartwallet/SmartWalletApplication.java
 /home/testuser/IdeaProjects/Smart-Wallet/backend/src/main/java/com/smartwallet/config/DatabaseConnectionTestRunner.java
+/home/testuser/IdeaProjects/Smart-Wallet/backend/src/main/java/com/smartwallet/dto/ErrorResponse.java
 /home/testuser/IdeaProjects/Smart-Wallet/backend/src/main/java/com/smartwallet/dto/LoginDto.java
 /home/testuser/IdeaProjects/Smart-Wallet/backend/src/main/java/com/smartwallet/dto/PanDto.java
+/home/testuser/IdeaProjects/Smart-Wallet/backend/src/main/java/com/smartwallet/dto/PanResponseDto.java
+/home/testuser/IdeaProjects/Smart-Wallet/backend/src/main/java/com/smartwallet/dto/PanStatusUpdateDto.java
 /home/testuser/IdeaProjects/Smart-Wallet/backend/src/main/java/com/smartwallet/dto/RegisterDto.java
+/home/testuser/IdeaProjects/Smart-Wallet/backend/src/main/java/com/smartwallet/dto/VkycAdminReviewDto.java
+/home/testuser/IdeaProjects/Smart-Wallet/backend/src/main/java/com/smartwallet/dto/VkycResponseDto.java
+/home/testuser/IdeaProjects/Smart-Wallet/backend/src/main/java/com/smartwallet/dto/VkycStartDto.java
+/home/testuser/IdeaProjects/Smart-Wallet/backend/src/main/java/com/smartwallet/dto/VkycSubmitDto.java
 /home/testuser/IdeaProjects/Smart-Wallet/backend/src/main/java/com/smartwallet/enums/VkycStatus.java
 /home/testuser/IdeaProjects/Smart-Wallet/backend/src/main/java/com/smartwallet/model/PanEntity.java
 /home/testuser/IdeaProjects/Smart-Wallet/backend/src/main/java/com/smartwallet/model/User.java
