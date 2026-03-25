@@ -42,8 +42,13 @@ export const WalletProvider = ({ children }) => {
     useEffect(() => {
         if (!user || !user.id) return;
 
-        // Note: Using window.location.origin to derive the WS endpoint relative to the proxy
-        const socket = new SockJS('/ws-wallet');
+        // derive the WS endpoint relative to the API base URL or window origin
+        const apiBase = import.meta.env.VITE_API_BASE_URL || '';
+        const wsUrl = apiBase.startsWith('http') 
+            ? apiBase.replace(/^http/, 'ws') + '/ws-wallet' 
+            : '/ws-wallet';
+            
+        const socket = new SockJS(wsUrl);
         const stompClient = Stomp.over(socket);
         
         // Disable debug logging in production-like feel

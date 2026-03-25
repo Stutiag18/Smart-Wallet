@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an Axios instance configured to talk to the backend.
 const api = axios.create({
-  baseURL: '/api'
+  baseURL: import.meta.env.VITE_API_BASE_URL || '/api'
 });
 
 export const authService = {
