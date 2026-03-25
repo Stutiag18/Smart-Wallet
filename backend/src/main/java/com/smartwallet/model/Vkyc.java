@@ -15,7 +15,7 @@ public class Vkyc {
     private String userId;
 
     private String videoFileName;
-    private String videoPath;
+    private String gridFsId;
 
     private Long fileSize;
     private String mimeType;
@@ -51,8 +51,8 @@ public class Vkyc {
         return videoFileName;
     }
 
-    public String getVideoPath() {
-        return videoPath;
+    public String getGridFsId() {
+        return gridFsId;
     }
 
     public Long getFileSize() {
@@ -103,8 +103,8 @@ public class Vkyc {
         this.videoFileName = videoFileName;
     }
 
-    public void setVideoPath(String videoPath) {
-        this.videoPath = videoPath;
+    public void setGridFsId(String gridFsId) {
+        this.gridFsId = gridFsId;
     }
 
     public void setFileSize(Long fileSize) {

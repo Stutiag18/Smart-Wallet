@@ -14,4 +14,6 @@ public interface VkycRepository extends MongoRepository<Vkyc, String> {
     Optional<Vkyc> findByUserId(String userId);
     List<Vkyc> findByStatus(VkycStatus status);
     boolean existsByUserId(String userId);
+    long countByStatus(VkycStatus status);
+    long countByStatusAndReviewedAtBetween(VkycStatus status, java.time.LocalDateTime from, java.time.LocalDateTime to);
 }

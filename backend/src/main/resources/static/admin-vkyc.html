@@ -381,13 +381,18 @@
 
     // Load pending VKYCs on page load
     window.onload = () => {
-        loadPendingVkcs();
+        loadPending();
     };
 
+    // Called from button click (has event)
     async function loadPendingVkcs() {
         document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
         event.target.classList.add('active');
-        
+        await loadPending();
+    }
+
+    // Core fetch — no event dependency
+    async function loadPending() {
         await fetch('/api/v1/vkyc/admin/pending')
             .then(res => res.json())
             .then(data => {
@@ -439,9 +444,20 @@
                 </div>
 
                 <div class="vkyc-body">
-                    <div class="video-preview">
-                        📹 Video recorded (${(vkyc.fileSize / 1024 / 1024).toFixed(2)} MB)
-                    </div>
+                    ${vkyc.videoFileName ? `
+                    <video
+                        controls
+                        style="width:100%;max-width:400px;border-radius:8px;margin:20px 0;background:#000;"
+                        src="/api/v1/vkyc/video/${vkyc.id}">
+                        Your browser does not support video playback.
+                    </video>
+                    <p style="font-size:12px;color:#666;margin-bottom:10px;">
+                        📁 ${vkyc.videoFileName} &nbsp;|&nbsp;
+                        ${vkyc.fileSize ? (vkyc.fileSize / 1024 / 1024).toFixed(2) + ' MB' : 'Size unknown'}
+                    </p>
+                    ` : `
+                    <div class="video-preview">📹 No video uploaded yet</div>
+                    `}
 
                     <div class="vkyc-details">
                         <div class="detail-item">
@@ -503,7 +519,7 @@
 
             if (response.ok) {
                 showMessage('✓ VKYC approved successfully', 'success');
-                await loadPendingVkcs();
+                await loadPending();
             } else {
                 const error = await response.json();
                 showMessage(`Error: ${error.message}`, 'error');
@@ -540,7 +556,7 @@
 
             if (response.ok) {
                 showMessage('✓ VKYC rejected successfully', 'success');
-                await loadPendingVkcs();
+                await loadPending();
             } else {
                 const error = await response.json();
                 showMessage(`Error: ${error.message}`, 'error');
@@ -561,10 +577,15 @@
         }, 5000);
     }
 
-    function updateStats() {
-        document.getElementById('pendingCount').textContent = allVkcs.filter(v => v.status === 'UNDER_REVIEW').length;
-        document.getElementById('totalCount').textContent = allVkcs.length;
-        document.getElementById('approvedCount').textContent = allVkcs.filter(v => v.status === 'APPROVED').length;
+    async function updateStats() {
+        try {
+            const stats = await fetch('/api/v1/vkyc/admin/stats').then(r => r.json());
+            document.getElementById('pendingCount').textContent = stats.pending ?? 0;
+            document.getElementById('totalCount').textContent = stats.total ?? 0;
+            document.getElementById('approvedCount').textContent = stats.approvedToday ?? 0;
+        } catch (e) {
+            console.error('Failed to load stats', e);
+        }
     }
 </script>
 

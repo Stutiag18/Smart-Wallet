@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = "com.smartwallet.repository", includeFilters = {
+@EnableJpaRepositories(basePackages = "com.smartwallet.repository", excludeFilters = {
         @org.springframework.context.annotation.ComponentScan.Filter(
                 type = org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE,
-                classes = {com.smartwallet.repository.UserRepository.class, com.smartwallet.repository.PanRepository.class}
+                classes = {com.smartwallet.repository.VkycRepository.class}
         )
 })
 @EnableMongoRepositories(basePackages = "com.smartwallet.repository", includeFilters = {

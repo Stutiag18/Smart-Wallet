@@ -1,0 +1,43 @@
+import{c as l,r,j as e,v as x}from"./index-BkM1biCC.js";import{C as u}from"./circle-check-big-CeGqtb2F.js";import{L as S}from"./loader-circle-uq_K0SAf.js";/**
+ * @license lucide-react v0.381.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const w=l("ChevronRight",[["path",{d:"m9 18 6-6-6-6",key:"mthhwq"}]]);/**
+ * @license lucide-react v0.381.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const R=l("CirclePlay",[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["polygon",{points:"10 8 16 12 10 16 10 8",key:"1cimsy"}]]);/**
+ * @license lucide-react v0.381.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const z=l("CircleX",[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["path",{d:"m15 9-6 6",key:"1uzhvr"}],["path",{d:"m9 9 6 6",key:"z0biqf"}]]);/**
+ * @license lucide-react v0.381.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const v=l("Clock",[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["polyline",{points:"12 6 12 12 16 14",key:"68esgv"}]]);/**
+ * @license lucide-react v0.381.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const A=l("Users",[["path",{d:"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2",key:"1yyitq"}],["circle",{cx:"9",cy:"7",r:"4",key:"nufk8"}],["path",{d:"M22 21v-2a4 4 0 0 0-3-3.87",key:"kshegd"}],["path",{d:"M16 3.13a4 4 0 0 1 0 7.75",key:"1da9ce"}]]),L=()=>{const[o,j]=r.useState({total:0,pending:0,approvedToday:0,rejectedToday:0}),[y,f]=r.useState([]),[i,g]=r.useState(null),[b,h]=r.useState(!0),[m,d]=r.useState(!1),c=async()=>{try{h(!0);const[t,s]=await Promise.all([x.getAdminStats(),x.getPending()]);j(t),f(s)}catch(t){console.error("Failed to fetch admin data",t)}finally{h(!1)}};r.useEffect(()=>{c();const t=setInterval(c,3e4);return()=>clearInterval(t)},[]);const k=async()=>{var t,s;if(i){d(!0);try{await x.approve(i.id),g(null),c()}catch(a){console.error("Approval failed",a),alert("Approval failed: "+(((s=(t=a.response)==null?void 0:t.data)==null?void 0:s.message)||a.message))}finally{d(!1)}}},C=async()=>{var s,a;if(!i)return;const t=prompt("Enter rejection reason:","Blurry video quality");if(t!==null){d(!0);try{await x.reject(i.id,"admin",t),g(null),c()}catch(n){console.error("Rejection failed",n),alert("Rejection failed: "+(((a=(s=n.response)==null?void 0:s.data)==null?void 0:a.message)||n.message))}finally{d(!1)}}},p=({title:t,value:s,icon:a,colorClass:n})=>e.jsxs("div",{className:"glass-panel",style:{flex:1,padding:"24px",display:"flex",alignItems:"center",gap:"20px"},children:[e.jsx("div",{className:n,style:{padding:"16px",borderRadius:"12px"},children:e.jsx(a,{size:32})}),e.jsxs("div",{children:[e.jsx("h3",{style:{fontSize:"28px",margin:0},children:s}),e.jsx("p",{style:{color:"var(--text-muted)",margin:"4px 0 0 0",fontSize:"14px",fontWeight:500,textTransform:"uppercase",letterSpacing:"0.5px"},children:t})]})]});return e.jsxs("div",{children:[e.jsxs("div",{style:{marginBottom:"30px"},children:[e.jsx("h1",{className:"gradient-text",style:{fontSize:"32px",marginBottom:"8px"},children:"Admin Dashboard"}),e.jsx("p",{style:{color:"var(--text-muted)"},children:"Real-time VKYC metrics and pending review queue."})]}),e.jsxs("div",{style:{display:"flex",gap:"20px",marginBottom:"40px",flexWrap:"wrap"},children:[e.jsx(p,{title:"Total VKYCs",value:o.total,icon:A,colorClass:"bg-blue"}),e.jsx(p,{title:"Pending Review",value:o.pending,icon:v,colorClass:"bg-yellow"}),e.jsx(p,{title:"Approved Today",value:o.approvedToday,icon:u,colorClass:"bg-green"}),e.jsx(p,{title:"Rejected Today",value:o.rejectedToday,icon:z,colorClass:"bg-red"})]}),e.jsx("style",{children:`
+        .bg-blue { background: rgba(56, 189, 248, 0.1); color: #38bdf8; }
+        .bg-yellow { background: rgba(250, 204, 21, 0.1); color: #facc15; }
+        .bg-green { background: rgba(74, 222, 128, 0.1); color: #4ade80; }
+        .bg-red { background: rgba(248, 113, 113, 0.1); color: #f87171; }
+        .list-item {
+          padding: 16px 20px;
+          border-bottom: 1px solid rgba(255,255,255,0.05);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          cursor: pointer;
+          transition: background 0.2s;
+        }
+        .list-item:hover { background: rgba(255,255,255,0.03); }
+        .list-item:last-child { border-bottom: none; }
+        .active-item { background: rgba(102, 126, 234, 0.1) !important; border-left: 4px solid var(--primary); }
+      `}),e.jsxs("div",{style:{display:"flex",gap:"30px",minHeight:"500px"},children:[e.jsxs("div",{className:"glass-panel",style:{flex:"1",display:"flex",flexDirection:"column"},children:[e.jsx("div",{style:{padding:"20px",borderBottom:"1px solid rgba(255,255,255,0.1)"},children:e.jsxs("h3",{style:{margin:0,display:"flex",alignItems:"center",gap:"8px"},children:[e.jsx(v,{size:20,color:"var(--warning)"})," Pending Applications"]})}),e.jsxs("div",{style:{flex:1,overflowY:"auto"},children:[b?e.jsxs("div",{style:{padding:"40px",textAlign:"center",color:"var(--text-muted)"},children:[e.jsx(S,{className:"animate-spin",size:32,style:{margin:"0 auto 10px",animation:"spin 1s linear infinite"}}),"Loading pending VKYCs..."]}):y.length===0?e.jsxs("div",{style:{padding:"40px",textAlign:"center",color:"var(--text-muted)"},children:[e.jsx(u,{size:48,style:{margin:"0 auto 16px",opacity:.5}}),e.jsx("p",{children:"No pending applications to review."}),e.jsx("p",{style:{fontSize:"13px",marginTop:"8px"},children:"Great job clearing the queue!"})]}):y.map(t=>e.jsxs("div",{className:`list-item ${(i==null?void 0:i.id)===t.id?"active-item":""}`,onClick:()=>g(t),children:[e.jsxs("div",{children:[e.jsx("h4",{style:{margin:"0 0 4px 0",fontSize:"16px"},children:t.userId}),e.jsxs("p",{style:{margin:0,fontSize:"12px",color:"var(--text-muted)"},children:["Submitted: ",new Date(t.submittedAt).toLocaleString()]})]}),e.jsx(w,{size:20,color:"var(--text-muted)"})]},t.id)),e.jsx("style",{children:"@keyframes spin { 100% { transform: rotate(360deg); } }"})]})]}),e.jsx("div",{className:"glass-panel",style:{flex:"2",padding:"30px",display:"flex",flexDirection:"column"},children:i?e.jsxs("div",{className:"animate-slide-up",style:{height:"100%",display:"flex",flexDirection:"column"},children:[e.jsxs("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"20px"},children:[e.jsxs("div",{children:[e.jsx("h2",{style:{margin:"0 0 8px 0"},children:"Review Profile"}),e.jsxs("p",{style:{margin:0,color:"var(--text-muted)"},children:["User ID: ",i.userId]})]}),e.jsx("span",{className:"badge badge-pending",children:"UNDER REVIEW"})]}),e.jsx("div",{style:{background:"#000",borderRadius:"12px",flex:1,position:"relative",overflow:"hidden",minHeight:"300px"},children:i.videoFileName?e.jsx("video",{controls:!0,autoPlay:!0,src:`/api/v1/vkyc/video/${i.id}`,style:{width:"100%",height:"100%",objectFit:"contain"},children:"Your browser does not support the video tag."}):e.jsx("div",{style:{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",color:"var(--text-muted)"},children:"No video associated with this application."})}),e.jsxs("div",{style:{marginTop:"30px",display:"flex",justifyContent:"space-between",alignItems:"center",background:"rgba(15, 23, 42, 0.4)",padding:"20px",borderRadius:"12px"},children:[e.jsxs("div",{children:[e.jsx("p",{style:{margin:"0 0 4px 0",fontSize:"14px",color:"var(--text-muted)"},children:"Documents Uploaded (Mock)"}),e.jsxs("div",{style:{display:"flex",gap:"10px",marginTop:"8px"},children:[e.jsx("span",{style:{fontSize:"13px",background:"rgba(255,255,255,0.1)",padding:"4px 10px",borderRadius:"4px"},children:"PAN Card"}),e.jsx("span",{style:{fontSize:"13px",background:"rgba(255,255,255,0.1)",padding:"4px 10px",borderRadius:"4px"},children:"Aadhaar"})]})]}),e.jsxs("div",{style:{display:"flex",gap:"16px"},children:[e.jsx("button",{onClick:C,disabled:m,className:"btn-danger",style:{minWidth:"120px"},children:"Reject"}),e.jsx("button",{onClick:k,disabled:m,className:"btn-success",style:{minWidth:"120px"},children:m?"Loading...":"Approve"})]})]})]}):e.jsxs("div",{style:{margin:"auto",textAlign:"center",color:"var(--text-muted)"},children:[e.jsx(R,{size:64,style:{margin:"0 auto 20px",opacity:.3}}),e.jsx("h3",{children:"Select an application from the queue to start reviewing."})]})})]})]})};export{L as default};

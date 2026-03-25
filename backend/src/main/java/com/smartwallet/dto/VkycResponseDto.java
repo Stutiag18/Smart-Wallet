@@ -7,6 +7,8 @@ public class VkycResponseDto {
 
     private String id;
     private String userId;
+    private String videoFileName;
+    private Long fileSize;
     private String otp;
     private boolean otpVerified;
     private LocalDateTime otpExpireAt;
@@ -18,11 +20,14 @@ public class VkycResponseDto {
 
     public VkycResponseDto() {}
 
-    public VkycResponseDto(String id, String userId, String otp, boolean otpVerified, LocalDateTime otpExpireAt, 
-                           VkycStatus status, LocalDateTime createdAt, LocalDateTime reviewedAt, 
+    public VkycResponseDto(String id, String userId, String videoFileName, Long fileSize,
+                           String otp, boolean otpVerified, LocalDateTime otpExpireAt,
+                           VkycStatus status, LocalDateTime createdAt, LocalDateTime reviewedAt,
                            String reviewedBy, String rejectionReason) {
         this.id = id;
         this.userId = userId;
+        this.videoFileName = videoFileName;
+        this.fileSize = fileSize;
         this.otp = otp;
         this.otpVerified = otpVerified;
         this.otpExpireAt = otpExpireAt;
@@ -31,6 +36,22 @@ public class VkycResponseDto {
         this.reviewedAt = reviewedAt;
         this.reviewedBy = reviewedBy;
         this.rejectionReason = rejectionReason;
+    }
+
+    public String getVideoFileName() {
+        return videoFileName;
+    }
+
+    public void setVideoFileName(String videoFileName) {
+        this.videoFileName = videoFileName;
+    }
+
+    public Long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(Long fileSize) {
+        this.fileSize = fileSize;
     }
 
     public String getId() {
