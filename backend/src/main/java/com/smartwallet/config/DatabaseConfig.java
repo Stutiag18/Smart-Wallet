@@ -36,13 +36,21 @@ public class DatabaseConfig {
 
         if (url != null) {
             try {
-                URI dbUri = new URI(url);
-                user = dbUri.getUserInfo().split(":")[0];
-                pass = dbUri.getUserInfo().split(":")[1];
-                url = "jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath();
-                System.out.println("✅ Discovered via URL: jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort());
+                if (url.startsWith("jdbc:postgresql://")) {
+                    System.out.println("✅ Using existing JDBC URL.");
+                } else {
+                    URI dbUri = new URI(url);
+                    if (dbUri.getUserInfo() != null) {
+                        String[] userInfo = dbUri.getUserInfo().split(":");
+                        user = userInfo[0];
+                        pass = userInfo.length > 1 ? userInfo[1] : "";
+                    }
+                    int port = dbUri.getPort() == -1 ? 5432 : dbUri.getPort();
+                    url = String.format("jdbc:postgresql://%s:%d%s", dbUri.getHost(), port, dbUri.getPath());
+                    System.out.println("✅ Converted URI to JDBC format.");
+                }
             } catch (Exception e) {
-                System.out.println("⚠️ Found URL but failed to parse: " + url.substring(0, Math.min(10, url.length())) + "...");
+                System.out.println("⚠️ Found URL but failed to parse: " + (url.length() > 10 ? url.substring(0, 10) : url) + "...");
                 url = null;
             }
         }
