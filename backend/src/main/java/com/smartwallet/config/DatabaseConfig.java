@@ -20,38 +20,50 @@ public class DatabaseConfig {
     public static class PostgresCondition implements Condition {
         @Override
         public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-            return System.getenv().values().stream()
-                    .anyMatch(v -> v != null && v.startsWith("postgres://"));
+            return findDatabaseUrl() != null || 
+                   (System.getenv("PGHOST") != null && System.getenv("PGDATABASE") != null);
         }
     }
 
     @Bean
     @Primary
     public DataSource dataSource() {
-        String databaseUrl = findEnvironmentVariable("postgres://");
-        
-        try {
-            URI dbUri = new URI(databaseUrl);
-            String username = dbUri.getUserInfo().split(":")[0];
-            String password = dbUri.getUserInfo().split(":")[1];
-            String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath();
+        String url = findDatabaseUrl();
+        String user = System.getenv("PGUSER");
+        String pass = System.getenv("PGPASSWORD");
 
-            System.out.println("🚀 DatabaseConfig: Auto-discovered remote database at " + dbUri.getHost());
-
-            return DataSourceBuilder.create()
-                    .url(dbUrl)
-                    .username(username)
-                    .password(password)
-                    .driverClassName("org.postgresql.Driver")
-                    .build();
-        } catch (Exception e) {
-            return null;
+        if (url != null) {
+            try {
+                URI dbUri = new URI(url);
+                user = dbUri.getUserInfo().split(":")[0];
+                pass = dbUri.getUserInfo().split(":")[1];
+                url = "jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath();
+                System.out.println("🚀 DatabaseConfig: Discovered via URL pattern");
+            } catch (Exception e) {
+                // Ignore and try separate vars
+                url = null;
+            }
         }
+
+        if (url == null) {
+            String host = System.getenv("PGHOST");
+            String port = System.getenv("PGPORT");
+            String db = System.getenv("PGDATABASE");
+            url = String.format("jdbc:postgresql://%s:%s/%s", host, port != null ? port : "5432", db);
+            System.out.println("🚀 DatabaseConfig: Discovered via PGHOST pattern");
+        }
+
+        return DataSourceBuilder.create()
+                .url(url)
+                .username(user != null ? user : "postgres")
+                .password(pass != null ? pass : "postgres")
+                .driverClassName("org.postgresql.Driver")
+                .build();
     }
 
-    private String findEnvironmentVariable(String prefix) {
+    private static String findDatabaseUrl() {
         return System.getenv().values().stream()
-                .filter(v -> v != null && v.startsWith(prefix))
+                .filter(v -> v != null && (v.startsWith("postgres://") || v.startsWith("jdbc:postgresql://")))
                 .findFirst()
                 .orElse(null);
     }
