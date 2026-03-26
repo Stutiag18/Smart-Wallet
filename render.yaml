@@ -47,25 +47,41 @@ services:
           name: smart-wallet-redis
           property: port
       - key: REDIS_PASSWORD
-        sync: false # Managed Redis might not need this, but good to have
-      # MongoDB Mapping (Atlas URI recommended)
+      # MongoDB Mapping (Automatic via private service below)
       - key: MONGODB_URI
-        sync: false # Set in Render Dashboard secrets
-      # SMTP (Brevo)
+        value: mongodb://smart-wallet-mongo:27017/smart_wallet_onboarding
+      # Redis Password (optional, leave blank for Render Managed)
+      - key: REDIS_PASSWORD
+        value: ""
+      # SMTP (Brevo) - Required for email alerts, but app will start without them
       - key: MAIL_USERNAME
         sync: false
       - key: MAIL_PASSWORD
         sync: false
 
+  # MongoDB as a Private Service (Automatic)
+  - type: pserv
+    name: smart-wallet-mongo
+    env: docker
+    dockerContext: .
+    dockerfileInline: |
+      FROM mongo:6.0
+      EXPOSE 27017
+    plan: free
+    disk:
+      name: mongo-data
+      mountPath: /data/db
+      sizeGB: 1
+
 databases:
-  # Managed PostgreSQL
+  # Managed PostgreSQL (Automatic)
   - name: smart-wallet-db
     databaseName: smart_wallet_db
     user: postgres
     plan: free
 
 redis:
-  # Managed Redis
+  # Managed Redis (Automatic)
   - name: smart-wallet-redis
     plan: free
     ipAllowList: [] # Only allow internal access
