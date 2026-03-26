@@ -3,6 +3,8 @@ package com.smartwallet.service;
 import com.smartwallet.enums.VkycStatus;
 import com.smartwallet.model.Vkyc;
 import com.smartwallet.repository.VkycRepository;
+import com.smartwallet.repository.UserRepository;
+import com.smartwallet.model.User;
 
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
@@ -28,11 +30,17 @@ public class VkycService {
     private final VkycRepository vkycRepository;
     private final WalletService walletService;
     private final GridFsTemplate gridFsTemplate;
+    private final EmailService emailService;
+    private final UserRepository userRepository;
 
-    public VkycService(VkycRepository vkycRepository, WalletService walletService, GridFsTemplate gridFsTemplate) {
+    public VkycService(VkycRepository vkycRepository, WalletService walletService, 
+                       GridFsTemplate gridFsTemplate, EmailService emailService,
+                       UserRepository userRepository) {
         this.vkycRepository = vkycRepository;
         this.walletService = walletService;
         this.gridFsTemplate = gridFsTemplate;
+        this.emailService = emailService;
+        this.userRepository = userRepository;
     }
 
     // 1️⃣ Start VKYC - Generate OTP
@@ -54,7 +62,37 @@ public class VkycService {
         vkyc.setOtpVerified(false);
         vkyc.setOtpExpireAt(LocalDateTime.now().plusMinutes(10)); // OTP valid for 10 minutes
 
-        return vkycRepository.save(vkyc);
+        Vkyc savedVkyc = vkycRepository.save(vkyc);
+        
+        // Dispatch OTP email
+        try {
+            sendOtpEmail(userId, otp);
+        } catch (Exception e) {
+            System.err.println("⚠️ Failed to dispatch VKYC OTP email: " + e.getMessage());
+        }
+
+        return savedVkyc;
+    }
+
+    // 1️⃣.5️⃣ Send OTP Email
+    public void sendOtpEmail(String userId, String otp) {
+        // Try to find user by primary ID (UUID)
+        User user = null;
+        try {
+            user = userRepository.findById(UUID.fromString(userId)).orElse(null);
+        } catch (Exception e) {
+            // If not a UUID, it might be the email/userId string directly
+            user = userRepository.findByUserId(userId).orElse(null);
+        }
+
+        if (user != null && user.getEmail() != null) {
+            emailService.sendVkycOtpEmail(user.getEmail(), otp);
+        } else {
+            // Fallback: If userId itself looks like an email, try sending to it
+            if (userId.contains("@")) {
+                emailService.sendVkycOtpEmail(userId, otp);
+            }
+        }
     }
 
     // Generate 6-digit random OTP

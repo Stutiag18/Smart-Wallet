@@ -14,5 +14,7 @@ public interface PanRepository extends JpaRepository<PanEntity, Long> {
 
     Optional<PanEntity> findByPanNumber(String panNumber);
 
+    Optional<PanEntity> findByUserId(String userId);
+
     List<PanEntity> findByStatus(String status);
 }

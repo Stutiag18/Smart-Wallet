@@ -33,6 +33,7 @@ public class PanController {
     public ResponseEntity<?> submitPan(@Valid @RequestBody PanDto request) {
         try {
             PanEntity pan = panService.submitPan(
+                    request.getUserId(),
                     request.getPanName(),
                     request.getPanNumber(),
                     request.getDob()
@@ -52,6 +53,28 @@ public class PanController {
                     new ErrorResponse(400, e.getMessage(), "Validation Error")
             );
         }
+    }
+
+    /**
+     * Get PAN status by User ID
+     * GET /api/v1/pan-screen/status/user/{userId}
+     */
+    @GetMapping("/status/user/{userId}")
+    public ResponseEntity<?> getStatus(@PathVariable String userId) {
+        return panService.getPanByUserId(userId)
+                .map(pan -> ResponseEntity.ok(
+                        new PanResponseDto(
+                                pan.getId(),
+                                pan.getPanName(),
+                                pan.getPanNumber(),
+                                pan.getDob(),
+                                pan.getStatus(),
+                                pan.getCreatedAt()
+                        )
+                ))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        new ErrorResponse(404, "PAN details not found for user: " + userId, "Not Found")
+                ));
     }
 
     /**

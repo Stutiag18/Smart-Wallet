@@ -18,6 +18,7 @@ public class EmailService {
     
     private String verificationSenderName = "welcome";
     private String resetSenderName = "reset-wallet";
+    private String vkycSenderName = "vkyc-verify";
 
     public EmailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
@@ -59,6 +60,28 @@ public class EmailService {
             logger.info("✅ POST-SEND: Reset email SENT successfully to {}", toEmail);
         } catch (Exception e) {
             logger.error("❌ ERROR-SEND: Failed to send reset email to {}. Error: {}", toEmail, e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void sendVkycOtpEmail(String toEmail, String otp) {
+        logger.info("PRE-SEND: Attempting to send VKYC OTP email to {} from {} <{}>", toEmail, vkycSenderName, fromEmail);
+        try {
+            jakarta.mail.internet.MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
+            
+            helper.setFrom(fromEmail, vkycSenderName);
+            helper.setTo(toEmail);
+            helper.setSubject("Action Required: Your VKYC Verification Code");
+            helper.setText("<h3>VKYC Verification</h3>" + 
+                           "<p>Your 6-digit verification code for Video KYC is: <b>" + otp + "</b></p>" +
+                           "<p>Please speak this code clearly during your video recording.</p>" + 
+                           "<p>This code will expire in 10 minutes.</p>", true);
+            
+            mailSender.send(message);
+            logger.info("✅ POST-SEND: VKYC OTP email SENT successfully to {}", toEmail);
+        } catch (Exception e) {
+            logger.error("❌ ERROR-SEND: Failed to send VKYC OTP email to {}. Error: {}", toEmail, e.getMessage());
             e.printStackTrace();
         }
     }

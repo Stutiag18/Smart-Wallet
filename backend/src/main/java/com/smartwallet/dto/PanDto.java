@@ -20,6 +20,9 @@ public class PanDto {
     @PastOrPresent(message = "Date of birth must be in the past")
     private LocalDate dob;
 
+    @NotBlank(message = "User ID cannot be blank")
+    private String userId;
+
     public String getPanName() {
         return panName;
     }
@@ -42,5 +45,13 @@ public class PanDto {
 
     public void setDob(LocalDate dob) {
         this.dob = dob;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

@@ -26,6 +26,9 @@ public class PanEntity {
     @Column(name = "dob", nullable = false)
     private LocalDate dob;
 
+    @Column(name = "user_id", nullable = false)
+    private String userId;
+
     @Column(name = "status", nullable = false)
     private String status; // SUBMITTED, VERIFIED, FAILED
 
@@ -74,6 +77,14 @@ public class PanEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public LocalDateTime getCreatedAt() {
