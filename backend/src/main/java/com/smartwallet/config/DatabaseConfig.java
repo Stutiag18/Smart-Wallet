@@ -8,19 +8,28 @@ import javax.sql.DataSource;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.springframework.context.annotation.Conditional;
+import org.springframework.context.annotation.Condition;
+import org.springframework.context.annotation.ConditionContext;
+import org.springframework.core.type.AnnotatedTypeMetadata;
+
 @Configuration
+@Conditional(DatabaseConfig.PostgresCondition.class)
 public class DatabaseConfig {
+
+    public static class PostgresCondition implements Condition {
+        @Override
+        public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+            return System.getenv().values().stream()
+                    .anyMatch(v -> v != null && v.startsWith("postgres://"));
+        }
+    }
 
     @Bean
     @Primary
     public DataSource dataSource() {
-        // Auto-discover any variable starting with postgres://
         String databaseUrl = findEnvironmentVariable("postgres://");
         
-        if (databaseUrl == null) {
-            return null;
-        }
-
         try {
             URI dbUri = new URI(databaseUrl);
             String username = dbUri.getUserInfo().split(":")[0];
