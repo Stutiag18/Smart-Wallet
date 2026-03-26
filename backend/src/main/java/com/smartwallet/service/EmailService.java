@@ -23,43 +23,43 @@ public class EmailService {
         this.mailSender = mailSender;
     }
 
-    public void sendVerificationEmail(String to, String otp) {
-        logger.info("PRE-SEND: Attempting to send verification email to {} from {} <{}>", to, verificationSenderName, fromEmail);
+    public void sendVerificationEmail(String toEmail, String otp) {
+        logger.info("PRE-SEND: Attempting to send verification email to {} from {} <{}>", toEmail, verificationSenderName, fromEmail);
         try {
             jakarta.mail.internet.MimeMessage message = mailSender.createMimeMessage();
             org.springframework.mail.javamail.MimeMessageHelper helper = new org.springframework.mail.javamail.MimeMessageHelper(message, "UTF-8");
             
             helper.setFrom(fromEmail, verificationSenderName);
-            helper.setTo(to);
+            helper.setTo(toEmail);
             helper.setSubject("Smart Wallet - Verify Your Email");
             helper.setText("Welcome to Smart Wallet! Your verification code is: " + otp + 
                            "\n\nThis code will expire in 10 minutes.");
             
             mailSender.send(message);
-            logger.info("POST-SEND: Verification email sent successfully to: {}", to);
+            logger.info("✅ POST-SEND: Verification email SENT successfully to {}", toEmail);
         } catch (Exception e) {
-            logger.error("POST-SEND ERROR: Failed to send verification email for {}: {}", to, e.getMessage());
-            throw new RuntimeException("Email delivery failed: " + e.getMessage());
+            logger.error("❌ ERROR-SEND: Failed to send verification email to {}. Error: {}", toEmail, e.getMessage());
+            // Log full stack trace for deep debugging
+            e.printStackTrace();
         }
     }
 
-    public void sendForgotPasswordEmail(String to, String otp) {
-        logger.info("PRE-SEND: Attempting to send reset email to {} from {} <{}>", to, resetSenderName, fromEmail);
+    public void sendResetPasswordEmail(String toEmail, String otp) {
+        logger.info("PRE-SEND: Attempting to send reset email to {} from {} <{}>", toEmail, resetSenderName, fromEmail);
         try {
             jakarta.mail.internet.MimeMessage message = mailSender.createMimeMessage();
-            org.springframework.mail.javamail.MimeMessageHelper helper = new org.springframework.mail.javamail.MimeMessageHelper(message, "UTF-8");
+            MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
             
             helper.setFrom(fromEmail, resetSenderName);
-            helper.setTo(to);
-            helper.setSubject("Smart Wallet - Password Reset Request");
-            helper.setText("You requested a password reset. Your OTP is: " + otp + 
-                           "\n\nIf you didn't request this, please ignore this email.");
+            helper.setTo(toEmail);
+            helper.setSubject("Reset Your Password - Smart Wallet");
+            helper.setText("Your OTP for password reset is: " + otp, true);
             
             mailSender.send(message);
-            logger.info("POST-SEND: Password reset email sent successfully to: {}", to);
+            logger.info("✅ POST-SEND: Reset email SENT successfully to {}", toEmail);
         } catch (Exception e) {
-            logger.error("POST-SEND ERROR: Failed to send reset email: {}", e.getMessage());
-            throw new RuntimeException("Email delivery failed: " + e.getMessage());
+            logger.error("❌ ERROR-SEND: Failed to send reset email to {}. Error: {}", toEmail, e.getMessage());
+            e.printStackTrace();
         }
     }
 }

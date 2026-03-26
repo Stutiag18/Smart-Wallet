@@ -43,7 +43,7 @@ spring:
   # SMTP Configuration (Brevo)
   mail:
     host: ${MAIL_HOST:smtp-relay.brevo.com}
-    port: ${MAIL_PORT:587}
+    port: ${MAIL_PORT:2525}
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
     from: ${MAIL_FROM:adityakanoujia30@gmail.com}
@@ -51,6 +51,9 @@ spring:
       mail:
         smtp:
           auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
           starttls:
             enable: true
             required: true
