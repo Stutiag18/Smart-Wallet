@@ -10,9 +10,9 @@ spring:
 
   # PostgreSQL - financial data
   datasource:
-    url: ${SPRING_DATASOURCE_URL:${DATABASE_URL:jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:smart_wallet_db}}}
-    username: ${POSTGRES_USER:${PGUSER:postgres}}
-    password: ${POSTGRES_PASSWORD:${PGPASSWORD:postgres}}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/smart_wallet_db}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect

@@ -36,6 +36,8 @@ public class DatabaseConfig {
             String password = dbUri.getUserInfo().split(":")[1];
             String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath();
 
+            System.out.println("🚀 DatabaseConfig: Auto-discovered remote database at " + dbUri.getHost());
+
             return DataSourceBuilder.create()
                     .url(dbUrl)
                     .username(username)
