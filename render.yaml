@@ -1,69 +1,24 @@
 services:
-  # The Backend Web Service
   - type: web
     name: smart-wallet-backend
-    env: docker
-    dockerContext: .
-    dockerfilePath: backend.Dockerfile
-    plan: free # Change to starter or higher for production
-    healthCheckPath: /actuator/health
+    env: java
+    buildCommand: "./mvnw clean install -DskipTests"
+    startCommand: "java -jar backend/target/*.jar"
+    plan: free
+    region: singapore
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
-      - key: PORT
-        value: 8081
-      # PostgreSQL Mapping
-      - key: SPRING_DATASOURCE_URL
-        value: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
-      - key: DB_HOST
+      - key: DATABASE_URL
         fromDatabase:
           name: smart-wallet-db
-          property: host
-      - key: DB_PORT
-        fromDatabase:
-          name: smart-wallet-db
-          property: port
-      - key: DB_NAME
-        fromDatabase:
-          name: smart-wallet-db
-          property: database
-      - key: SPRING_DATASOURCE_USERNAME
-        fromDatabase:
-          name: smart-wallet-db
-          property: user
-      - key: SPRING_DATASOURCE_PASSWORD
-        fromDatabase:
-          name: smart-wallet-db
-          property: password
-      # Redis Mapping (Updated to match keyvalue service type)
-      - key: REDIS_HOST
-        fromService:
-          type: keyvalue
-          name: smart-wallet-redis
-          property: host
-      - key: REDIS_PORT
-        fromService:
-          type: keyvalue
-          name: smart-wallet-redis
-          property: port
-      # MongoDB Mapping (Use Atlas URI)
-      - key: MONGODB_URI
-        sync: false
-      - key: REDIS_PASSWORD
-        value: "" # Managed Redis on Render usually doesn't have a password set in Blueprint
-      - key: MAIL_USERNAME
-        sync: false
-      - key: MAIL_PASSWORD
-        sync: false
-
-  # Managed Redis (Automatic) - Defined as a service
-  - type: keyvalue
-    name: smart-wallet-redis
-    plan: free
-    ipAllowList: [] # Only allow internal access
+          property: connectionString
+      - key: SERVER_PORT
+        value: 10000
 
 databases:
-  # Managed PostgreSQL (Automatic)
   - name: smart-wallet-db
     databaseName: smart_wallet_db
+    user: smart_wallet_user
     plan: free
+    region: singapore
