@@ -43,20 +43,16 @@ spring:
   # SMTP Configuration (Brevo)
   mail:
     host: ${MAIL_HOST:smtp-relay.brevo.com}
-    port: ${MAIL_PORT:465}
+    port: ${MAIL_PORT:587}
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
     properties:
       mail:
-        debug: false
         smtp:
           auth: true
-          ssl:
+          starttls:
             enable: true
-          socketFactory:
-            port: 587
-            class: javax.net.ssl.SSLSocketFactory
-            fallback: false
+            required: true
 
 management:
   endpoints:
@@ -66,4 +62,3 @@ management:
   endpoint:
     health:
       show-details: always
-
