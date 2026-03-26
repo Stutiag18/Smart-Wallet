@@ -56,8 +56,8 @@ services:
       - key: MAIL_PASSWORD
         sync: false
 
-  # MongoDB as a Private Service (No disk for Free Tier)
-  - type: pserv
+  # MongoDB as a Web Service (Workaround for Free Tier pserv restriction)
+  - type: web
     name: smart-wallet-mongo
     env: image
     image:
