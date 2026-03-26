@@ -46,7 +46,6 @@ services:
           type: redis
           name: smart-wallet-redis
           property: port
-      - key: REDIS_PASSWORD
       # MongoDB Mapping (Automatic via private service below)
       - key: MONGODB_URI
         value: mongodb://smart-wallet-mongo:27017/smart_wallet_onboarding
