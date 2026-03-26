@@ -107,7 +107,7 @@ public class AuthService {
 
         // Send Email
         try {
-            emailService.sendForgotPasswordEmail(email, otp);
+            emailService.sendResetPasswordEmail(email, otp);
         } catch (Exception e) {
             logger.error("CRITICAL: Failed to send forgot password email: {}", e.getMessage());
         }
