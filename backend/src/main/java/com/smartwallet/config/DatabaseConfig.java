@@ -8,7 +8,10 @@ import javax.sql.DataSource;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+
 @Configuration
+@ConditionalOnProperty(name = "DATABASE_URL")
 public class DatabaseConfig {
 
     @Bean
@@ -16,11 +19,7 @@ public class DatabaseConfig {
     public DataSource dataSource() {
         String databaseUrl = System.getenv("DATABASE_URL");
         
-        if (databaseUrl == null || databaseUrl.isEmpty()) {
-            // Fallback to default autoconfiguration (via application.yml)
-            return null; 
-        }
-
+        // This method will only be called if DATABASE_URL is present
         try {
             // Railway/Heroku format: postgres://user:pass@host:port/dbname
             URI dbUri = new URI(databaseUrl);
