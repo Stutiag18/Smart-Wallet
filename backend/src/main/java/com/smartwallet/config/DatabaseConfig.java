@@ -11,13 +11,16 @@ import java.net.URISyntaxException;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 @Configuration
-@ConditionalOnProperty(name = "DATABASE_URL")
+@ConditionalOnProperty(name = {"DATABASE_URL", "POSTGRES_URL"}, matchIfMissing = false)
 public class DatabaseConfig {
 
     @Bean
     @Primary
     public DataSource dataSource() {
         String databaseUrl = System.getenv("DATABASE_URL");
+        if (databaseUrl == null || databaseUrl.isEmpty()) {
+            databaseUrl = System.getenv("POSTGRES_URL");
+        }
         
         // This method will only be called if DATABASE_URL is present
         try {
