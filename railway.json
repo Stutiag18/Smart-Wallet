@@ -13,7 +13,7 @@
   "services": {
     "smart-wallet-backend": {
       "source": {
-        "directory": "backend"
+        "directory": "."
       },
       "environment": {
         "SPRING_DATASOURCE_URL": "jdbc:postgresql://${{ postgres.POSTGRES_HOST }}:${{ postgres.POSTGRES_PORT }}/${{ postgres.POSTGRES_DATABASE }}",
