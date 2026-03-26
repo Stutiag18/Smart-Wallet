@@ -46,23 +46,15 @@ services:
           type: keyvalue
           name: smart-wallet-redis
           property: port
-      # MongoDB Mapping
+      # MongoDB Mapping (Use Atlas URI)
       - key: MONGODB_URI
-        value: mongodb://smart-wallet-mongo:27017/smart_wallet_onboarding
+        sync: false
       - key: REDIS_PASSWORD
         value: "" # Managed Redis on Render usually doesn't have a password set in Blueprint
       - key: MAIL_USERNAME
         sync: false
       - key: MAIL_PASSWORD
         sync: false
-
-  # MongoDB as a Web Service (Workaround for Free Tier pserv restriction)
-  - type: web
-    name: smart-wallet-mongo
-    env: image
-    image:
-      url: mongo:6.0
-    plan: free
 
   # Managed Redis (Automatic) - Defined as a service
   - type: keyvalue
