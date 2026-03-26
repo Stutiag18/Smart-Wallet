@@ -4,7 +4,7 @@ services:
     name: smart-wallet-backend
     env: docker
     dockerContext: .
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: backend.Dockerfile
     plan: free # Change to starter or higher for production
     healthCheckPath: /actuator/health
     envVars:
@@ -61,11 +61,8 @@ services:
   # MongoDB as a Private Service (Automatic)
   - type: pserv
     name: smart-wallet-mongo
-    env: docker
-    dockerContext: .
-    dockerfileInline: |
-      FROM mongo:6.0
-      EXPOSE 27017
+    env: image
+    image: mongo:6.0
     plan: free
     disk:
       name: mongo-data
