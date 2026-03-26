@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: ${PORT:8081}
   error:
     include-message: always
     include-stacktrace: never
@@ -11,13 +11,18 @@ spring:
   # PostgreSQL - financial data
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/smart_wallet_db}
-    username: ${POSTGRES_USER:postgres}
-    password: ${POSTGRES_PASSWORD:postgres}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: ${HIBERNATE_DDL_AUTO:update}
     show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
   flyway:
     enabled: ${FLYWAY_ENABLED:false}  # temporarily disabled until Flyway version is aligned with PostgreSQL 14.20
     locations: classpath:db/migration
@@ -27,8 +32,8 @@ spring:
   data:
     mongodb:
       uri: ${MONGODB_URI:mongodb://localhost:27017/smart_wallet_onboarding}
-      database: ${MONGODB_DATABASE:smart_wallet_onboarding}
       auto-index-creation: true
+
     redis:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}

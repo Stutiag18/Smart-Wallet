@@ -1,32 +1,72 @@
 services:
+  # The Backend Web Service
   - type: web
     name: smart-wallet-backend
     env: docker
     dockerContext: .
-    dockerfilePath: backend/Dockerfile
-    plan: free
-    region: singapore
+    dockerfilePath: Dockerfile
+    plan: free # Change to starter or higher for production
+    healthCheckPath: /actuator/health
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
-      - key: DATABASE_URL
+      - key: SERVER_PORT
+        value: 8081
+      # PostgreSQL Mapping
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      - key: DB_HOST
         fromDatabase:
           name: smart-wallet-db
-          property: connectionString
-      - key: SERVER_PORT
-        value: 10000
-      - key: MONGODB_URI
-        sync: false # Set this in Render dashboard (Atlas URI)
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: smart-wallet-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: smart-wallet-db
+          property: database
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: smart-wallet-db
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: smart-wallet-db
+          property: password
+      # Redis Mapping
       - key: REDIS_HOST
-        sync: false # Set this in Render dashboard
+        fromStackResource:
+          type: redis
+          name: smart-wallet-redis
+          property: host
+      - key: REDIS_PORT
+        fromStackResource:
+          type: redis
+          name: smart-wallet-redis
+          property: port
+      # MongoDB Mapping (User provided Atlas URI recommended)
+      - key: MONGODB_URI
+        sync: false # Set this in Render Dashboard secrets
+      # SMTP (Brevo)
       - key: MAIL_USERNAME
         sync: false
       - key: MAIL_PASSWORD
         sync: false
+      # Redis Password (optional for Render managed)
+      - key: REDIS_PASSWORD
+        sync: false
 
 databases:
+  # Managed PostgreSQL
   - name: smart-wallet-db
     databaseName: smart_wallet_db
-    user: smart_wallet_user
+    user: postgres
     plan: free
-    region: singapore
+
+redis:
+  # Managed Redis
+  - name: smart-wallet-redis
+    plan: free
+    ipAllowList: [] # Only allow internal access
