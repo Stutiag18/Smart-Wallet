@@ -51,6 +51,11 @@ public class DatabaseConfig {
                     url = String.format("jdbc:postgresql://%s:%d%s", dbUri.getHost(), port, dbUri.getPath());
                     System.out.println("✅ Converted URI to JDBC format.");
                 }
+                
+                // Enforce SSL for remote connections
+                if (!url.contains("sslmode=")) {
+                    url += (url.contains("?") ? "&" : "?") + "sslmode=require";
+                }
             } catch (Exception e) {
                 System.out.println("⚠️ Found URL but failed to parse: " + (url.length() > 10 ? url.substring(0, 10) : url) + "...");
                 url = null;
@@ -83,10 +88,14 @@ public class DatabaseConfig {
     @Bean
     public CommandLineRunner postgresStatus(DataSource dataSource) {
         return args -> {
-            try (Connection conn = dataSource.getConnection()) {
-                System.out.println("✅ PostgreSQL Connected: " + conn.getMetaData().getURL().split("\\?")[0]);
+            try (Connection conn = dataSource.getConnection();
+                 java.sql.Statement stmt = conn.createStatement()) {
+                System.out.println("🔍 Running Database Ping Test (SELECT 1)...");
+                stmt.executeQuery("SELECT 1");
+                System.out.println("✅ PostgreSQL Connected & Verified (Ping OK): " + conn.getMetaData().getURL().split("\\?")[0]);
             } catch (Exception e) {
-                System.out.println("❌ PostgreSQL Connection Failed: " + e.getMessage());
+                System.out.println("❌ PostgreSQL Connection/Query Failed! Check SSL and Credentials.");
+                e.printStackTrace();
             }
         };
     }
