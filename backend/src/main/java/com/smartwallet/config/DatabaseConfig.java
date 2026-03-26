@@ -28,6 +28,8 @@ public class DatabaseConfig {
     @Bean
     @Primary
     public DataSource dataSource() {
+        System.out.println("🔍 DatabaseConfig: Starting Auto-Discovery...");
+        
         String url = findDatabaseUrl();
         String user = System.getenv("PGUSER");
         String pass = System.getenv("PGPASSWORD");
@@ -38,9 +40,9 @@ public class DatabaseConfig {
                 user = dbUri.getUserInfo().split(":")[0];
                 pass = dbUri.getUserInfo().split(":")[1];
                 url = "jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath();
-                System.out.println("🚀 DatabaseConfig: Discovered via URL pattern");
+                System.out.println("✅ Discovered via URL: jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort());
             } catch (Exception e) {
-                // Ignore and try separate vars
+                System.out.println("⚠️ Found URL but failed to parse: " + url.substring(0, Math.min(10, url.length())) + "...");
                 url = null;
             }
         }
@@ -49,8 +51,15 @@ public class DatabaseConfig {
             String host = System.getenv("PGHOST");
             String port = System.getenv("PGPORT");
             String db = System.getenv("PGDATABASE");
-            url = String.format("jdbc:postgresql://%s:%s/%s", host, port != null ? port : "5432", db);
-            System.out.println("🚀 DatabaseConfig: Discovered via PGHOST pattern");
+            if (host != null && db != null) {
+                url = String.format("jdbc:postgresql://%s:%s/%s", host, port != null ? port : "5432", db);
+                System.out.println("✅ Discovered via PGHOST: " + host + ":" + (port != null ? port : "5432"));
+            }
+        }
+
+        if (url == null) {
+            System.out.println("❌ No remote database found in environment. Falling back to local settings.");
+            return null; // This should be handled by the Condition, but safety first
         }
 
         return DataSourceBuilder.create()
