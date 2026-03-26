@@ -72,7 +72,7 @@ public class DatabaseConfig {
 
     private static String findDatabaseUrl() {
         return System.getenv().values().stream()
-                .filter(v -> v != null && (v.startsWith("postgres://") || v.startsWith("jdbc:postgresql://")))
+                .filter(v -> v != null && (v.startsWith("postgresql://") || v.startsWith("postgres://") || v.startsWith("jdbc:postgresql://")))
                 .findFirst()
                 .orElse(null);
     }
