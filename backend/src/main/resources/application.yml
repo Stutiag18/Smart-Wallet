@@ -21,7 +21,7 @@ spring:
     show-sql: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
 
   flyway:
     enabled: ${FLYWAY_ENABLED:false}  # temporarily disabled until Flyway version is aligned with PostgreSQL 14.20
