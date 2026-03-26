@@ -62,7 +62,8 @@ services:
   - type: pserv
     name: smart-wallet-mongo
     env: image
-    image: mongo:6.0
+    image:
+      url: mongo:6.0
     plan: free
     disk:
       name: mongo-data
@@ -76,8 +77,8 @@ databases:
     user: postgres
     plan: free
 
-redis:
+keyValues:
   # Managed Redis (Automatic)
-  - name: smart-wallet-redis
-    plan: free
-    ipAllowList: [] # Only allow internal access
+  name: smart-wallet-redis
+  plan: free
+  ipAllowList: [] # Only allow internal access
