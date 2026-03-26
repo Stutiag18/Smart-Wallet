@@ -1,10 +1,12 @@
 # Smart Wallet Application
 
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/import?repo=https://github.com/Aditya-1025/Smart-Wallet_)
+
 A modern, secure digital wallet platform with sequential onboarding (PAN, VKYC) and real-time payment features.
 
 ## Prerequisites
 
-- **Java 21**: Ensure `java -version` shows version 21.
+- **Java 17**: Ensure `java -version` shows version 17 (standard for this deployment).
 - **Node.js & npm**: For the Vite-based frontend.
 - **Docker & Docker Compose**: To run PostgreSQL, MongoDB, and Redis.
 
@@ -60,6 +62,6 @@ The frontend will be available at `http://localhost:5173`.
 
 ## Tech Stack
 
-- **Backend**: Spring Boot 3.2, Java 21, JPA/PostgreSQL, MongoDB, Redis.
+- **Backend**: Spring Boot 3.2, Java 17, JPA/PostgreSQL, MongoDB, Redis.
 - **Frontend**: Vite, React, Vanilla CSS.
 - **Infrastructure**: Docker Compose.
