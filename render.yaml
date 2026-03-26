@@ -12,7 +12,7 @@ services:
         value: prod
       - key: PORT
         value: 8081
-      # PostgreSQL Mapping (Constructing JDBC URL from parts)
+      # PostgreSQL Mapping
       - key: SPRING_DATASOURCE_URL
         value: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
       - key: DB_HOST
@@ -35,30 +35,28 @@ services:
         fromDatabase:
           name: smart-wallet-db
           property: password
-      # Redis Mapping
+      # Redis Mapping (Updated to match keyvalue service type)
       - key: REDIS_HOST
-        fromStackResource:
-          type: redis
+        fromService:
+          type: keyvalue
           name: smart-wallet-redis
           property: host
       - key: REDIS_PORT
-        fromStackResource:
-          type: redis
+        fromService:
+          type: keyvalue
           name: smart-wallet-redis
           property: port
-      # MongoDB Mapping (Automatic via private service below)
+      # MongoDB Mapping
       - key: MONGODB_URI
         value: mongodb://smart-wallet-mongo:27017/smart_wallet_onboarding
-      # Redis Password (optional, leave blank for Render Managed)
       - key: REDIS_PASSWORD
-        value: ""
-      # SMTP (Brevo) - Required for email alerts, but app will start without them
+        value: "" # Managed Redis on Render usually doesn't have a password set in Blueprint
       - key: MAIL_USERNAME
         sync: false
       - key: MAIL_PASSWORD
         sync: false
 
-  # MongoDB as a Private Service (Automatic)
+  # MongoDB as a Private Service
   - type: pserv
     name: smart-wallet-mongo
     env: image
@@ -70,15 +68,15 @@ services:
       mountPath: /data/db
       sizeGB: 1
 
+  # Managed Redis (Automatic) - Defined as a service
+  - type: keyvalue
+    name: smart-wallet-redis
+    plan: free
+    ipAllowList: [] # Only allow internal access
+
 databases:
   # Managed PostgreSQL (Automatic)
   - name: smart-wallet-db
     databaseName: smart_wallet_db
     user: postgres
     plan: free
-
-keyValues:
-  # Managed Redis (Automatic)
-  name: smart-wallet-redis
-  plan: free
-  ipAllowList: [] # Only allow internal access
