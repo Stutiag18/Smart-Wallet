@@ -17,16 +17,18 @@
       },
       "environment": {
         "SPRING_DATASOURCE_URL": "jdbc:postgresql://${{ postgres.POSTGRES_HOST }}:${{ postgres.POSTGRES_PORT }}/${{ postgres.POSTGRES_DATABASE }}",
-        "POSTGRES_USER": "${{ postgres.POSTGRES_USER }}",
-        "POSTGRES_PASSWORD": "${{ postgres.POSTGRES_PASSWORD }}",
+        "SPRING_DATASOURCE_USERNAME": "${{ postgres.POSTGRES_USER }}",
+        "SPRING_DATASOURCE_PASSWORD": "${{ postgres.POSTGRES_PASSWORD }}",
         "MONGODB_URI": "${{ mongodb.MONGODB_URL }}",
-        "MONGODB_DATABASE": "smart_wallet_onboarding",
         "REDIS_HOST": "${{ redis.REDIS_HOST }}",
         "REDIS_PORT": "${{ redis.REDIS_PORT }}",
         "REDIS_PASSWORD": "${{ redis.REDIS_PASSWORD }}",
+        "MAIL_HOST": "smtp-relay.brevo.com",
+        "MAIL_PORT": "465",
+        "MAIL_USERNAME": "",
+        "MAIL_PASSWORD": "",
         "HIBERNATE_DDL_AUTO": "update",
-        "FLYWAY_ENABLED": "false",
-        "SERVER_PORT": "8081"
+        "PORT": "8081"
       }
     }
   }
