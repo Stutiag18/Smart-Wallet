@@ -15,20 +15,14 @@ public class DatabaseConfig {
     @Primary
     public DataSource dataSource() {
         // Auto-discover any variable starting with postgres://
-        String databaseUrl = System.getenv().values().stream()
-                .filter(v -> v != null && v.startsWith("postgres://"))
-                .findFirst()
-                .orElse(null);
+        String databaseUrl = findEnvironmentVariable("postgres://");
         
         if (databaseUrl == null) {
-            // Fallback for local development
             return null;
         }
 
         try {
-            // Railway/Heroku format: postgres://user:pass@host:port/dbname
             URI dbUri = new URI(databaseUrl);
-
             String username = dbUri.getUserInfo().split(":")[0];
             String password = dbUri.getUserInfo().split(":")[1];
             String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath();
@@ -39,8 +33,15 @@ public class DatabaseConfig {
                     .password(password)
                     .driverClassName("org.postgresql.Driver")
                     .build();
-        } catch (URISyntaxException e) {
-            throw new RuntimeException("❌ Failed to parse DATABASE_URL: " + databaseUrl, e);
+        } catch (Exception e) {
+            return null;
         }
+    }
+
+    private String findEnvironmentVariable(String prefix) {
+        return System.getenv().values().stream()
+                .filter(v -> v != null && v.startsWith(prefix))
+                .findFirst()
+                .orElse(null);
     }
 }
