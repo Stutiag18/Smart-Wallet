@@ -1,6 +1,6 @@
 package com.smartwallet.service;
 
-import jakarta.mail.internet.MimeMessage;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -13,8 +13,9 @@ public class EmailService {
     private final JavaMailSender mailSender;
     private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
-    // Verified sender address for Brevo
-    private String fromEmail = "adityakanoujia30@gmail.com";
+    @Value("${spring.mail.from:adityakanoujia30@gmail.com}")
+    private String fromEmail;
+    
     private String verificationSenderName = "welcome";
     private String resetSenderName = "reset-wallet";
 
