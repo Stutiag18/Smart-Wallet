@@ -4,7 +4,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.CommandLineRunner;
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -76,6 +78,17 @@ public class DatabaseConfig {
                 .password(pass != null ? pass : "postgres")
                 .driverClassName("org.postgresql.Driver")
                 .build();
+    }
+
+    @Bean
+    public CommandLineRunner postgresStatus(DataSource dataSource) {
+        return args -> {
+            try (Connection conn = dataSource.getConnection()) {
+                System.out.println("✅ PostgreSQL Connected: " + conn.getMetaData().getURL().split("\\?")[0]);
+            } catch (Exception e) {
+                System.out.println("❌ PostgreSQL Connection Failed: " + e.getMessage());
+            }
+        };
     }
 
     private static String findDatabaseUrl() {
