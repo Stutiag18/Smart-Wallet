@@ -8,21 +8,23 @@ import javax.sql.DataSource;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-
 @Configuration
-@ConditionalOnProperty(name = {"DATABASE_URL", "POSTGRES_URL"}, matchIfMissing = false)
 public class DatabaseConfig {
 
     @Bean
     @Primary
     public DataSource dataSource() {
-        String databaseUrl = System.getenv("DATABASE_URL");
-        if (databaseUrl == null || databaseUrl.isEmpty()) {
-            databaseUrl = System.getenv("POSTGRES_URL");
-        }
+        // Auto-discover any variable starting with postgres://
+        String databaseUrl = System.getenv().values().stream()
+                .filter(v -> v != null && v.startsWith("postgres://"))
+                .findFirst()
+                .orElse(null);
         
-        // This method will only be called if DATABASE_URL is present
+        if (databaseUrl == null) {
+            // Fallback for local development
+            return null;
+        }
+
         try {
             // Railway/Heroku format: postgres://user:pass@host:port/dbname
             URI dbUri = new URI(databaseUrl);
