@@ -4,7 +4,7 @@ services:
     name: smart-wallet-backend
     env: docker
     dockerContext: .
-    dockerfilePath: Dockerfile
+    dockerfilePath: ./Dockerfile
     plan: free # Change to starter or higher for production
     healthCheckPath: /actuator/health
     envVars:

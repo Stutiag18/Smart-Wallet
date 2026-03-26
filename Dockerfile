@@ -1,5 +1,5 @@
-# Stage 1: Build (Java 17)
-FROM maven:3.9.6-eclipse-temurin-17-alpine AS build
+# Stage 1: Build (Java 21)
+FROM maven:3.9.6-eclipse-temurin-21-alpine AS build
 WORKDIR /app
 
 # Copy Maven Wrapper and Project structure
@@ -16,8 +16,8 @@ COPY backend/src backend/src
 # Build the backend module specifically
 RUN ./mvnw package -DskipTests -pl backend -am
 
-# Stage 2: Run (JRE 17)
-FROM eclipse-temurin:17-jre-alpine
+# Stage 2: Run (JRE 21)
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
 # The jar is built inside the backend/target folder
