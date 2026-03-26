@@ -32,6 +32,7 @@ spring:
   data:
     mongodb:
       uri: ${MONGODB_URI:mongodb://localhost:27017/smart_wallet_onboarding}
+      database: ${MONGODB_DATABASE:smart_wallet_onboarding}
       auto-index-creation: true
 
     redis:
